@@ -1,6 +1,7 @@
 import logging
 import os
 from pathlib import Path
+from typing import List
 
 import orjson
 from fastapi import FastAPI, Form, UploadFile
@@ -8,6 +9,8 @@ from fastapi.staticfiles import StaticFiles
 
 from app.api import router as api_router
 from app.upload import ingest_runnable
+
+from langchain_core.runnables import RunnableConfig
 
 logger = logging.getLogger(__name__)
 
@@ -24,8 +27,8 @@ app.include_router(api_router)
 @app.post("/ingest", description="Upload files to the given assistant.")
 def ingest_files(files: list[UploadFile], config: str = Form(...)) -> None:
     """Ingest a list of files."""
-    config = orjson.loads(config)
-    return ingest_runnable.batch([file.file for file in files], config)
+    runnable_config: RunnableConfig | List[RunnableConfig] | None = orjson.loads(config)
+    return ingest_runnable.batch([file.file for file in files], runnable_config)
 
 
 ui_dir = str(ROOT / "ui")

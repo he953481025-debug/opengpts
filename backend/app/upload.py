@@ -8,22 +8,23 @@ For the time being, upload and ingestion are coupled
 """
 from __future__ import annotations
 
-import os
 from typing import Any, BinaryIO, List, Optional
 
+from app.ingest import ingest_blob
+from app.parsing import MIMETYPE_BASED_PARSER
+from dotenv import load_dotenv
 from langchain.text_splitter import RecursiveCharacterTextSplitter, TextSplitter
 from langchain_community.document_loaders.blob_loaders import Blob
-from langchain_community.vectorstores.redis import Redis
+from langchain_community.vectorstores.elasticsearch import ElasticsearchStore
 from langchain_core.runnables import (
     ConfigurableField,
     RunnableConfig,
     RunnableSerializable,
 )
 from langchain_core.vectorstores import VectorStore
-from langchain_openai import OpenAIEmbeddings
+from langchain_openai import AzureOpenAIEmbeddings
 
-from app.ingest import ingest_blob
-from app.parsing import MIMETYPE_BASED_PARSER
+load_dotenv()
 
 
 def _guess_mimetype(file_bytes: bytes) -> str:
@@ -106,13 +107,14 @@ class IngestRunnable(RunnableSerializable[BinaryIO, List[str]]):
 index_schema = {
     "tag": [{"name": "namespace"}],
 }
-vstore = Redis(
-    redis_url=os.environ["REDIS_URL"],
-    index_name="opengpts",
-    embedding=OpenAIEmbeddings(),
-    index_schema=index_schema,
+vstore = ElasticsearchStore(
+    es_url="http://47.97.65.248:59201",
+    es_user="elastic",
+    es_password="dajidali",
+    index_name="vembeding-auto2",
+    # text-embedding-ada-002 MAX_INPUT_TOKENS=8191 OUTPUT_DIMENSIONS=1536
+    embedding=AzureOpenAIEmbeddings(model="text-embedding-ada-002", api_version="2023-07-01-preview")
 )
-
 
 ingest_runnable = IngestRunnable(
     text_splitter=RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200),

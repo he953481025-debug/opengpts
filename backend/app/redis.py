@@ -5,6 +5,9 @@ from redis.client import Redis as RedisType
 
 CLIENT: RedisType | None = None
 
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def get_redis_client() -> RedisType:
     """Get a Redis client."""

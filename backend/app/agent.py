@@ -33,6 +33,7 @@ from app.tools import (
 
 class AgentType(str, Enum):
     GPT_35_TURBO = "GPT 3.5 Turbo"
+    AZURE_GPT_35_TURBO = "GPT 3.5 Turbo(Azure)"
     GPT_4 = "GPT 4"
     AZURE_OPENAI = "GPT 4 (Azure OpenAI)"
     CLAUDE2 = "Claude 2"
@@ -58,6 +59,11 @@ def get_agent_executor(
         )
     elif agent == AgentType.GPT_4:
         llm = get_openai_llm(gpt_4=True)
+        return get_openai_agent_executor(
+            tools, llm, system_message, interrupt_before_action, CHECKPOINTER
+        )
+    elif agent == AgentType.AZURE_GPT_35_TURBO:
+        llm = get_openai_llm(azure=True)
         return get_openai_agent_executor(
             tools, llm, system_message, interrupt_before_action, CHECKPOINTER
         )

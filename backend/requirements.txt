@@ -1,10 +1,19 @@
 langchain-cli
--e packages/gizmo-agent
--e packages/agent-executor
-langchain>=0.1.0
-langserve>=0.0.23
+langchain==0.1.7
+langserve==0.0.32
 httpx[socks]
 langgraph
 python-multipart
 langchain-robocorp>=0.0.1
-
+redis
+boto3
+langchain_google_vertexai
+langchain-openai==0.0.5
+beautifulsoup4
+python-dotenv
+elasticsearch
+duckduckgo-search
+arxiv
+kay
+xmltodict
+wikipedia
