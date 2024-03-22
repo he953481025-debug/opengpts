@@ -17,3 +17,4 @@ arxiv
 kay
 xmltodict
 wikipedia
+python-magic

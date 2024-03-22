@@ -34,10 +34,10 @@ from app.tools import (
 class AgentType(str, Enum):
     GPT_35_TURBO = "GPT 3.5 Turbo"
     AZURE_GPT_35_TURBO = "GPT 3.5 Turbo(Azure)"
-    GPT_4 = "GPT 4"
-    AZURE_OPENAI = "GPT 4 (Azure OpenAI)"
-    CLAUDE2 = "Claude 2"
-    BEDROCK_CLAUDE2 = "Claude 2 (Amazon Bedrock)"
+    # GPT_4 = "GPT 4"
+    # AZURE_OPENAI = "GPT 4 (Azure OpenAI)"
+    # CLAUDE2 = "Claude 2"
+    # BEDROCK_CLAUDE2 = "Claude 2 (Amazon Bedrock)"
     GEMINI = "GEMINI"
 
 

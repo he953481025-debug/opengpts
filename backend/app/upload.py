@@ -111,7 +111,7 @@ vstore = ElasticsearchStore(
     es_url="http://47.97.65.248:59201",
     es_user="elastic",
     es_password="dajidali",
-    index_name="vembeding-auto2",
+    index_name="hejincai-embedding",
     # text-embedding-ada-002 MAX_INPUT_TOKENS=8191 OUTPUT_DIMENSIONS=1536
     embedding=AzureOpenAIEmbeddings(model="text-embedding-ada-002", api_version="2023-07-01-preview")
 )

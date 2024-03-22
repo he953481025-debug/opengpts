@@ -30,7 +30,7 @@ def ingest_blob(
     vectorstore: VectorStore,
     namespace: str,
     *,
-    batch_size: int = 100,
+    batch_size: int = 20,
 ) -> List[str]:
     """Ingest a document into the vectorstore."""
     docs_to_index = []
@@ -42,7 +42,7 @@ def ingest_blob(
         docs_to_index.extend(docs)
 
         if len(docs_to_index) >= batch_size:
-            ids.extend(vectorstore.add_documents(docs_to_index))
+            ids.extend(vectorstore.add_documents(docs_to_index, bulk_kwargs={"chunk_size": batch_size}))
             docs_to_index = []
 
     if docs_to_index:

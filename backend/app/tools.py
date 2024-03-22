@@ -2,6 +2,7 @@ import os
 from enum import Enum
 from functools import lru_cache
 
+from app.upload import vstore
 from langchain.pydantic_v1 import BaseModel, Field
 from langchain.tools.retriever import create_retriever_tool
 from langchain_community.agent_toolkits.connery import ConneryToolkit
@@ -16,10 +17,7 @@ from langchain_community.tools.connery import ConneryService
 from langchain_community.tools.tavily_search import TavilyAnswer, TavilySearchResults
 from langchain_community.utilities.arxiv import ArxivAPIWrapper
 from langchain_community.utilities.tavily_search import TavilySearchAPIWrapper
-from langchain_community.vectorstores.redis import RedisFilter
 from langchain_robocorp import ActionServerToolkit
-
-from app.upload import vstore
 
 
 class DDGInput(BaseModel):
@@ -41,7 +39,7 @@ If the user asks a vague question, they are likely meaning to look up info from 
 
 def get_retriever(assistant_id: str):
     return vstore.as_retriever(
-        search_kwargs={"filter": RedisFilter.tag("namespace") == assistant_id}
+        search_kwargs={}
     )
 
 
